@@ -1,0 +1,261 @@
+import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { loadPricing, formatBWP } from "@/lib/pricing";
+import { ArrowLeft, Info } from "lucide-react";
+
+const TOOLTIPS = {
+  cpu: "Number of virtual CPU cores assigned to your server. More cores = better multitasking.",
+  ram: "Memory available to applications running on your VPS. More RAM = smoother performance.",
+  ssd: "Fast solid-state storage for your operating system and applications.",
+  hdd: "Cost-effective storage for large files, backups, and archives.",
+  backup: "Additional storage for automated backups of your VPS data.",
+};
+
+function ResourceSlider({
+  label,
+  emoji,
+  tooltip,
+  value,
+  min,
+  max,
+  step,
+  unit,
+  onChange,
+}: {
+  label: string;
+  emoji: string;
+  tooltip: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  unit: string;
+  onChange: (v: number) => void;
+}) {
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-lg">{emoji}</span>
+          <span className="font-medium text-card-foreground">{label}</span>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Info className="h-3.5 w-3.5 text-muted-foreground cursor-help" />
+            </TooltipTrigger>
+            <TooltipContent className="max-w-[220px]">
+              <p className="text-xs">{tooltip}</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+        <span className="text-lg font-bold text-primary tabular-nums">
+          {value.toLocaleString()} {unit}
+        </span>
+      </div>
+      <Slider
+        value={[value]}
+        min={min}
+        max={max}
+        step={step}
+        onValueChange={([v]) => onChange(v)}
+        className="w-full"
+      />
+      <div className="flex justify-between text-xs text-muted-foreground">
+        <span>{min} {unit}</span>
+        <span>{max.toLocaleString()} {unit}</span>
+      </div>
+    </div>
+  );
+}
+
+const Calculator = () => {
+  const navigate = useNavigate();
+  const pricing = loadPricing();
+
+  const [cpu, setCpu] = useState(2);
+  const [ram, setRam] = useState(4);
+  const [ssd, setSsd] = useState(50);
+  const [hdd, setHdd] = useState(100);
+  const [backupEnabled, setBackupEnabled] = useState(false);
+  const [backup, setBackup] = useState(50);
+
+  const costs = useMemo(() => {
+    const computeCost = cpu * pricing.cpuPerCore + ram * pricing.ramPerGb;
+    const ssdCost = ssd * pricing.ssdPerGb;
+    const hddCost = hdd * pricing.hddPerGb;
+    const backupCost = backupEnabled ? backup * pricing.backupPerGb : 0;
+    const total = computeCost + ssdCost + hddCost + backupCost;
+    return { computeCost, ssdCost, hddCost, backupCost, total };
+  }, [cpu, ram, ssd, hdd, backup, backupEnabled, pricing]);
+
+  return (
+    <div className="min-h-screen bg-background px-4 py-8">
+      <div className="max-w-4xl mx-auto">
+        <Button
+          variant="ghost"
+          onClick={() => navigate("/")}
+          className="mb-6 text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" /> Back
+        </Button>
+
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-2">🧮 Build Your VPS</h1>
+          <p className="text-muted-foreground">
+            Drag the sliders to build your perfect VPS!
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Configuration */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Compute */}
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg text-card-foreground">💻 Compute</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <ResourceSlider
+                  label="vCPU Cores"
+                  emoji="⚡"
+                  tooltip={TOOLTIPS.cpu}
+                  value={cpu}
+                  min={1}
+                  max={128}
+                  step={1}
+                  unit="cores"
+                  onChange={setCpu}
+                />
+                <ResourceSlider
+                  label="RAM"
+                  emoji="🧠"
+                  tooltip={TOOLTIPS.ram}
+                  value={ram}
+                  min={1}
+                  max={256}
+                  step={1}
+                  unit="GB"
+                  onChange={setRam}
+                />
+              </CardContent>
+            </Card>
+
+            {/* Storage */}
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg text-card-foreground">💾 Storage</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <ResourceSlider
+                  label="SSD Storage"
+                  emoji="⚡"
+                  tooltip={TOOLTIPS.ssd}
+                  value={ssd}
+                  min={10}
+                  max={5000}
+                  step={10}
+                  unit="GB"
+                  onChange={setSsd}
+                />
+                <ResourceSlider
+                  label="HDD Storage"
+                  emoji="📀"
+                  tooltip={TOOLTIPS.hdd}
+                  value={hdd}
+                  min={10}
+                  max={8000}
+                  step={10}
+                  unit="GB"
+                  onChange={setHdd}
+                />
+              </CardContent>
+            </Card>
+
+            {/* Backup */}
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg text-card-foreground">🛡️ Backup</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">
+                      {backupEnabled ? "Enabled" : "Disabled"}
+                    </span>
+                    <Switch checked={backupEnabled} onCheckedChange={setBackupEnabled} />
+                  </div>
+                </div>
+              </CardHeader>
+              {backupEnabled && (
+                <CardContent>
+                  <ResourceSlider
+                    label="Backup Storage"
+                    emoji="☁️"
+                    tooltip={TOOLTIPS.backup}
+                    value={backup}
+                    min={0}
+                    max={10000}
+                    step={10}
+                    unit="GB"
+                    onChange={setBackup}
+                  />
+                </CardContent>
+              )}
+            </Card>
+
+            {/* Future features placeholder */}
+            {/* TODO: OS Selection (Linux free, Windows +cost) */}
+            {/* TODO: Additional IP Addresses */}
+            {/* TODO: Managed Support Option */}
+            {/* TODO: Bandwidth Pricing */}
+            {/* TODO: Tiered Discounts */}
+            {/* TODO: Promotional Pricing */}
+          </div>
+
+          {/* Pricing Card */}
+          <div className="lg:col-span-1">
+            <Card className="bg-card border-border sticky top-8">
+              <CardHeader>
+                <CardTitle className="text-lg text-card-foreground">💰 Cost Breakdown</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <PriceLine label="Compute (vCPU + RAM)" amount={costs.computeCost} />
+                <PriceLine label="SSD Storage" amount={costs.ssdCost} />
+                <PriceLine label="HDD Storage" amount={costs.hddCost} />
+                {backupEnabled && (
+                  <PriceLine label="Backup Storage" amount={costs.backupCost} />
+                )}
+
+                <div className="border-t border-border pt-4 mt-4">
+                  <div className="flex justify-between items-center">
+                    <span className="font-semibold text-card-foreground">Total / month</span>
+                    <span className="text-2xl font-bold text-primary animate-price">
+                      {formatBWP(costs.total)}
+                    </span>
+                  </div>
+                </div>
+
+                <p className="text-xs text-muted-foreground text-center pt-2">
+                  Prices in Botswana Pula (BWP) · Excl. VAT
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+function PriceLine({ label, amount }: { label: string; amount: number }) {
+  return (
+    <div className="flex justify-between text-sm">
+      <span className="text-muted-foreground">{label}</span>
+      <span className="font-medium text-card-foreground animate-price">{formatBWP(amount)}</span>
+    </div>
+  );
+}
+
+export default Calculator;
