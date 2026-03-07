@@ -136,7 +136,7 @@ const Calculator = () => {
                 emoji="🧠"
                 tooltip={TOOLTIPS.ram}
                 value={ram}
-                min={1}
+                min={0}
                 max={256}
                 step={1}
                 unit="GB"
