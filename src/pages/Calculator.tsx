@@ -231,7 +231,7 @@ const Calculator = () => {
                     <p className="text-sm text-card-foreground">
                       Required backup capacity: <span className="font-bold text-primary">{calculatedBackupGb.toLocaleString()} GB</span>
                     </p>
-                    <p className="text-xs text-muted-foreground">Based on 30% annual change rate</p>
+                    <p className="text-xs text-muted-foreground">Based on 5% daily change rate</p>
                   </div>
                 ) : (
                   <ResourceSlider
