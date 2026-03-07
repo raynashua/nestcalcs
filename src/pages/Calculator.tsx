@@ -76,12 +76,12 @@ const Calculator = () => {
   const navigate = useNavigate();
   const pricing = loadPricing();
 
-  const [cpu, setCpu] = useState(2);
-  const [ram, setRam] = useState(4);
-  const [ssd, setSsd] = useState(50);
-  const [hdd, setHdd] = useState(100);
+  const [cpu, setCpu] = useState(0);
+  const [ram, setRam] = useState(0);
+  const [ssd, setSsd] = useState(0);
+  const [hdd, setHdd] = useState(0);
   const [backupEnabled, setBackupEnabled] = useState(false);
-  const [backup, setBackup] = useState(50);
+  const [backup, setBackup] = useState(0);
   const [windowsEnabled, setWindowsEnabled] = useState(false);
 
   const costs = useMemo(() => {
@@ -125,7 +125,7 @@ const Calculator = () => {
                 emoji="⚡"
                 tooltip={TOOLTIPS.cpu}
                 value={cpu}
-                min={1}
+                min={0}
                 max={128}
                 step={1}
                 unit="cores"
@@ -136,7 +136,7 @@ const Calculator = () => {
                 emoji="🧠"
                 tooltip={TOOLTIPS.ram}
                 value={ram}
-                min={1}
+                min={0}
                 max={256}
                 step={1}
                 unit="GB"
@@ -156,7 +156,7 @@ const Calculator = () => {
                 emoji="⚡"
                 tooltip={TOOLTIPS.ssd}
                 value={ssd}
-                min={10}
+                min={0}
                 max={5000}
                 step={10}
                 unit="GB"
@@ -167,7 +167,7 @@ const Calculator = () => {
                 emoji="📀"
                 tooltip={TOOLTIPS.hdd}
                 value={hdd}
-                min={10}
+                min={0}
                 max={8000}
                 step={10}
                 unit="GB"
