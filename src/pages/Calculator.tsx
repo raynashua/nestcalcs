@@ -96,7 +96,7 @@ const Calculator = () => {
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <Button
           variant="ghost"
           onClick={() => navigate("/")}
@@ -112,163 +112,155 @@ const Calculator = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Configuration */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Compute */}
-            <Card className="bg-card border-border">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg text-card-foreground">💻 Compute</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <ResourceSlider
-                  label="vCPU Cores"
-                  emoji="⚡"
-                  tooltip={TOOLTIPS.cpu}
-                  value={cpu}
-                  min={1}
-                  max={128}
-                  step={1}
-                  unit="cores"
-                  onChange={setCpu}
-                />
-                <ResourceSlider
-                  label="RAM"
-                  emoji="🧠"
-                  tooltip={TOOLTIPS.ram}
-                  value={ram}
-                  min={1}
-                  max={256}
-                  step={1}
-                  unit="GB"
-                  onChange={setRam}
-                />
-              </CardContent>
-            </Card>
+        {/* Compute & Storage side by side */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          {/* Compute */}
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg text-card-foreground">💻 Compute</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <ResourceSlider
+                label="vCPU Cores"
+                emoji="⚡"
+                tooltip={TOOLTIPS.cpu}
+                value={cpu}
+                min={1}
+                max={128}
+                step={1}
+                unit="cores"
+                onChange={setCpu}
+              />
+              <ResourceSlider
+                label="RAM"
+                emoji="🧠"
+                tooltip={TOOLTIPS.ram}
+                value={ram}
+                min={1}
+                max={256}
+                step={1}
+                unit="GB"
+                onChange={setRam}
+              />
+            </CardContent>
+          </Card>
 
-            {/* Storage */}
-            <Card className="bg-card border-border">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg text-card-foreground">💾 Storage</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <ResourceSlider
-                  label="SSD Storage"
-                  emoji="⚡"
-                  tooltip={TOOLTIPS.ssd}
-                  value={ssd}
-                  min={10}
-                  max={5000}
-                  step={10}
-                  unit="GB"
-                  onChange={setSsd}
-                />
-                <ResourceSlider
-                  label="HDD Storage"
-                  emoji="📀"
-                  tooltip={TOOLTIPS.hdd}
-                  value={hdd}
-                  min={10}
-                  max={8000}
-                  step={10}
-                  unit="GB"
-                  onChange={setHdd}
-                />
-              </CardContent>
-            </Card>
+          {/* Storage */}
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg text-card-foreground">💾 Storage</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <ResourceSlider
+                label="SSD Storage"
+                emoji="⚡"
+                tooltip={TOOLTIPS.ssd}
+                value={ssd}
+                min={10}
+                max={5000}
+                step={10}
+                unit="GB"
+                onChange={setSsd}
+              />
+              <ResourceSlider
+                label="HDD Storage"
+                emoji="📀"
+                tooltip={TOOLTIPS.hdd}
+                value={hdd}
+                min={10}
+                max={8000}
+                step={10}
+                unit="GB"
+                onChange={setHdd}
+              />
+            </CardContent>
+          </Card>
+        </div>
 
-            {/* Backup */}
-            <Card className="bg-card border-border">
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg text-card-foreground">🛡️ Backup</CardTitle>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">
-                      {backupEnabled ? "Enabled" : "Disabled"}
-                    </span>
-                    <Switch checked={backupEnabled} onCheckedChange={setBackupEnabled} />
-                  </div>
+        {/* Backup, OS, and Pricing */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Backup */}
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg text-card-foreground">🛡️ Backup</CardTitle>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">
+                    {backupEnabled ? "On" : "Off"}
+                  </span>
+                  <Switch checked={backupEnabled} onCheckedChange={setBackupEnabled} />
                 </div>
-              </CardHeader>
-              {backupEnabled && (
-                <CardContent>
-                  <ResourceSlider
-                    label="Backup Storage"
-                    emoji="☁️"
-                    tooltip={TOOLTIPS.backup}
-                    value={backup}
-                    min={0}
-                    max={10000}
-                    step={10}
-                    unit="GB"
-                    onChange={setBackup}
-                  />
-                </CardContent>
-              )}
-            </Card>
-
-            {/* Operating System */}
-            <Card className="bg-card border-border">
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg text-card-foreground">🖥️ Operating System</CardTitle>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">
-                      {windowsEnabled ? "Windows" : "Linux"}
-                    </span>
-                    <Switch checked={windowsEnabled} onCheckedChange={setWindowsEnabled} />
-                  </div>
-                </div>
-              </CardHeader>
+              </div>
+            </CardHeader>
+            {backupEnabled && (
               <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  {windowsEnabled
-                    ? "Windows Server 2025 Standard license included."
-                    : "Linux (no additional cost)."}
-                </p>
+                <ResourceSlider
+                  label="Backup Storage"
+                  emoji="☁️"
+                  tooltip={TOOLTIPS.backup}
+                  value={backup}
+                  min={0}
+                  max={10000}
+                  step={10}
+                  unit="GB"
+                  onChange={setBackup}
+                />
               </CardContent>
-            </Card>
+            )}
+          </Card>
 
-            {/* Future features placeholder */}
-            {/* TODO: Additional IP Addresses */}
-            {/* TODO: Managed Support Option */}
-            {/* TODO: Bandwidth Pricing */}
-            {/* TODO: Tiered Discounts */}
-            {/* TODO: Promotional Pricing */}
-          </div>
+          {/* Operating System */}
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg text-card-foreground">🖥️ OS</CardTitle>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">
+                    {windowsEnabled ? "Windows" : "Linux"}
+                  </span>
+                  <Switch checked={windowsEnabled} onCheckedChange={setWindowsEnabled} />
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                {windowsEnabled
+                  ? "Windows Server 2025 Standard license included."
+                  : "Linux (no additional cost)."}
+              </p>
+            </CardContent>
+          </Card>
 
           {/* Pricing Card */}
-          <div className="lg:col-span-1">
-            <Card className="bg-card border-border sticky top-8">
-              <CardHeader>
-                <CardTitle className="text-lg text-card-foreground">💰 Cost Breakdown</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <PriceLine label="Compute (vCPU + RAM)" amount={costs.computeCost} />
-                <PriceLine label="SSD Storage" amount={costs.ssdCost} />
-                <PriceLine label="HDD Storage" amount={costs.hddCost} />
-                {backupEnabled && (
-                  <PriceLine label="Backup Storage" amount={costs.backupCost} />
-                )}
-                {windowsEnabled && (
-                  <PriceLine label="Windows Server 2025 Std" amount={costs.windowsCost} />
-                )}
+          <Card className="bg-card border-border">
+            <CardHeader>
+              <CardTitle className="text-lg text-card-foreground">💰 Cost Breakdown</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <PriceLine label="Compute (vCPU + RAM)" amount={costs.computeCost} />
+              <PriceLine label="SSD Storage" amount={costs.ssdCost} />
+              <PriceLine label="HDD Storage" amount={costs.hddCost} />
+              {backupEnabled && (
+                <PriceLine label="Backup Storage" amount={costs.backupCost} />
+              )}
+              {windowsEnabled && (
+                <PriceLine label="Windows Server 2025 Std" amount={costs.windowsCost} />
+              )}
 
-                <div className="border-t border-border pt-4 mt-4">
-                  <div className="flex justify-between items-center">
-                    <span className="font-semibold text-card-foreground">Total / month</span>
-                    <span className="text-2xl font-bold text-primary animate-price">
-                      {formatBWP(costs.total)}
-                    </span>
-                  </div>
+              <div className="border-t border-border pt-4 mt-4">
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold text-card-foreground">Total / month</span>
+                  <span className="text-2xl font-bold text-primary animate-price">
+                    {formatBWP(costs.total)}
+                  </span>
                 </div>
+              </div>
 
-                <p className="text-xs text-muted-foreground text-center pt-2">
-                  Prices in Botswana Pula (BWP) · Excl. VAT
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+              <p className="text-xs text-muted-foreground text-center pt-2">
+                Prices in Botswana Pula (BWP) · Excl. VAT
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
