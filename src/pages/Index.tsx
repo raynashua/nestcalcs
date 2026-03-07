@@ -56,7 +56,8 @@ const Index = () => {
         </Card>
 
         <Card
-          className="cursor-pointer group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm border-border"
+          className="cursor-pointer group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm border-border animate-fade-in"
+          style={{ animationDuration: '0.5s', animationDelay: '0.35s', animationFillMode: 'both' }}
           onClick={() => navigate("/admin")}
         >
           <CardContent className="p-8 text-center">
