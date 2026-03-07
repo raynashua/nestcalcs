@@ -108,7 +108,7 @@ const Calculator = () => {
     const ipv4Cost = ipv4Count * pricing.ipv4PerAddress;
     const total = computeCost + ssdCost + hddCost + backupCost + windowsCost + sqlServerCost + ipv4Cost;
     return { computeCost, ssdCost, hddCost, backupCost, windowsCost, sqlServerCost, ipv4Cost, total };
-  }, [cpu, ram, ssd, hdd, effectiveBackup, windowsEnabled, ipv4Count, pricing]);
+  }, [cpu, ram, ssd, hdd, effectiveBackup, windowsEnabled, sqlServerEnabled, ipv4Count, pricing]);
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
