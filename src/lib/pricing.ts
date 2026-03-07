@@ -4,6 +4,7 @@ export interface PricingConfig {
   ssdPerGb: number;
   hddPerGb: number;
   backupPerGb: number;
+  windowsServer: number;
 }
 
 export const DEFAULT_PRICING: PricingConfig = {
@@ -12,6 +13,7 @@ export const DEFAULT_PRICING: PricingConfig = {
   ssdPerGb: 2,
   hddPerGb: 0.8,
   backupPerGb: 0.5,
+  windowsServer: 350,
 };
 
 const STORAGE_KEY = "vps-pricing-config";

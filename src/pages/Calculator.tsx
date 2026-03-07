@@ -250,6 +250,9 @@ const Calculator = () => {
                 {backupEnabled && (
                   <PriceLine label="Backup Storage" amount={costs.backupCost} />
                 )}
+                {windowsEnabled && (
+                  <PriceLine label="Windows Server 2025 Std" amount={costs.windowsCost} />
+                )}
 
                 <div className="border-t border-border pt-4 mt-4">
                   <div className="flex justify-between items-center">
