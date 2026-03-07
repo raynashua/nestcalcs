@@ -5,6 +5,7 @@ export interface PricingConfig {
   hddPerGb: number;
   backupPerGb: number;
   windowsServer: number;
+  sqlServerStandard: number;
   ipv4PerAddress: number;
 }
 
