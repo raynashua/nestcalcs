@@ -30,7 +30,7 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="text-center mb-12 max-w-2xl relative z-10">
+      <div className="text-center mb-12 max-w-2xl relative z-10 animate-fade-in" style={{ animationDuration: '0.6s', animationFillMode: 'both' }}>
         <div className="text-5xl mb-4">☁️</div>
         <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
           VPS Hosting Calculator
