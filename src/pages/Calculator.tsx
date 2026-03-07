@@ -8,7 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { loadPricing, formatBWP } from "@/lib/pricing";
 import { ArrowLeft, Info } from "lucide-react";
-import { ArrowLeft, Info } from "lucide-react";
 
 const TOOLTIPS = {
   cpu: "Number of virtual CPU cores assigned to your server. More cores = better multitasking.",
