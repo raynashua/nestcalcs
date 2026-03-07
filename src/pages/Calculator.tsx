@@ -82,6 +82,7 @@ const Calculator = () => {
   const [hdd, setHdd] = useState(100);
   const [backupEnabled, setBackupEnabled] = useState(false);
   const [backup, setBackup] = useState(50);
+  const [windowsEnabled, setWindowsEnabled] = useState(false);
 
   const costs = useMemo(() => {
     const computeCost = cpu * pricing.cpuPerCore + ram * pricing.ramPerGb;
