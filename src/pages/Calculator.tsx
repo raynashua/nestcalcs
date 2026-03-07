@@ -268,12 +268,25 @@ const Calculator = () => {
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground">
                 {windowsEnabled
                   ? "Windows Server 2025 Standard license included."
                   : "Linux (no additional cost)."}
               </p>
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-card-foreground">🌐 IPv4 Addresses</span>
+                <Select value={String(ipv4Count)} onValueChange={(v) => setIpv4Count(Number(v))}>
+                  <SelectTrigger className="w-20">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Array.from({ length: 11 }, (_, i) => (
+                      <SelectItem key={i} value={String(i)}>{i}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </CardContent>
           </Card>
 
