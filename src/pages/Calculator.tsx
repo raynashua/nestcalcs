@@ -204,18 +204,48 @@ const Calculator = () => {
               </div>
             </CardHeader>
             {backupEnabled && (
-              <CardContent>
-                <ResourceSlider
-                  label="Backup Storage"
-                  emoji="☁️"
-                  tooltip={TOOLTIPS.backup}
-                  value={backup}
-                  min={0}
-                  max={10000}
-                  step={10}
-                  unit="GB"
-                  onChange={setBackup}
-                />
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-card-foreground">Use industry default (7-day incremental)</span>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info className="h-3.5 w-3.5 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-[240px]">
+                        <p className="text-xs">Calculates backup capacity for 1 full + 7 daily incremental backups, assuming 30% annual data change rate.</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground">{useIndustryDefault ? "Yes" : "No"}</span>
+                    <Switch checked={useIndustryDefault} onCheckedChange={setUseIndustryDefault} />
+                  </div>
+                </div>
+
+                {useIndustryDefault ? (
+                  <div className="rounded-md bg-muted/50 p-3 space-y-1">
+                    <p className="text-sm text-card-foreground">
+                      Total storage: <span className="font-semibold">{totalStorage.toLocaleString()} GB</span>
+                    </p>
+                    <p className="text-sm text-card-foreground">
+                      Required backup capacity: <span className="font-bold text-primary">{calculatedBackupGb.toLocaleString()} GB</span>
+                    </p>
+                    <p className="text-xs text-muted-foreground">Based on 30% annual change rate</p>
+                  </div>
+                ) : (
+                  <ResourceSlider
+                    label="Backup Storage"
+                    emoji="☁️"
+                    tooltip={TOOLTIPS.backup}
+                    value={backup}
+                    min={0}
+                    max={10000}
+                    step={10}
+                    unit="GB"
+                    onChange={setBackup}
+                  />
+                )}
               </CardContent>
             )}
           </Card>
