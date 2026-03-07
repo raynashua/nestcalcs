@@ -9,11 +9,11 @@ const Index = () => {
       {/* Dynamic background layers */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Radial glow top-right */}
-        <div className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[120px]" />
+        <div className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[120px] animate-glow-1" />
         {/* Radial glow bottom-left */}
-        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-primary/8 blur-[100px]" />
+        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-primary/8 blur-[100px] animate-glow-2" />
         {/* Subtle accent orb center */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-secondary/20 blur-[160px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-secondary/20 blur-[160px] animate-glow-3" />
         {/* Grid overlay */}
         <div
           className="absolute inset-0 opacity-[0.04]"
