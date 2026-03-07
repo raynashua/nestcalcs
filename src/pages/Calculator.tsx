@@ -125,7 +125,7 @@ const Calculator = () => {
                 emoji="⚡"
                 tooltip={TOOLTIPS.cpu}
                 value={cpu}
-                min={1}
+                min={0}
                 max={128}
                 step={1}
                 unit="cores"
