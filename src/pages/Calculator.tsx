@@ -315,6 +315,9 @@ const Calculator = () => {
               {windowsEnabled && (
                 <PriceLine label="Windows Server 2025 Std" amount={costs.windowsCost} />
               )}
+              {sqlServerEnabled && (
+                <PriceLine label="SQL Server Standard" amount={costs.sqlServerCost} />
+              )}
               {ipv4Count > 0 && (
                 <PriceLine label={`IPv4 Address ×${ipv4Count}`} amount={costs.ipv4Cost} />
               )}
