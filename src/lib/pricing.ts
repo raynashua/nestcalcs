@@ -16,6 +16,7 @@ export const DEFAULT_PRICING: PricingConfig = {
   hddPerGb: 0.8,
   backupPerGb: 0.5,
   windowsServer: 350,
+  sqlServerStandard: 500,
   ipv4PerAddress: 25,
 };
 
