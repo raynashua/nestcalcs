@@ -156,7 +156,7 @@ const Calculator = () => {
                 emoji="⚡"
                 tooltip={TOOLTIPS.ssd}
                 value={ssd}
-                min={10}
+                min={0}
                 max={5000}
                 step={10}
                 unit="GB"
