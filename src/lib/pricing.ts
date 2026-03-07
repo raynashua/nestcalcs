@@ -15,6 +15,7 @@ export const DEFAULT_PRICING: PricingConfig = {
   hddPerGb: 0.8,
   backupPerGb: 0.5,
   windowsServer: 350,
+  ipv4PerAddress: 25,
 };
 
 const STORAGE_KEY = "vps-pricing-config";

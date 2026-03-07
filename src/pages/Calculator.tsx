@@ -305,6 +305,9 @@ const Calculator = () => {
               {windowsEnabled && (
                 <PriceLine label="Windows Server 2025 Std" amount={costs.windowsCost} />
               )}
+              {ipv4Count > 0 && (
+                <PriceLine label={`IPv4 Address ×${ipv4Count}`} amount={costs.ipv4Cost} />
+              )}
 
               <div className="border-t border-border pt-4 mt-4">
                 <div className="flex justify-between items-center">
