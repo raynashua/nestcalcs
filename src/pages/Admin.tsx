@@ -90,6 +90,7 @@ const Admin = () => {
     { key: "hddPerGb", label: "Cost per GB of HDD", unit: "BWP / GB / month" },
     { key: "backupPerGb", label: "Cost per GB of Backup", unit: "BWP / GB / month" },
     { key: "windowsServer", label: "Windows Server 2025 Standard", unit: "BWP / month" },
+    { key: "sqlServerStandard", label: "SQL Server Standard", unit: "BWP / month" },
     { key: "ipv4PerAddress", label: "Cost per IPv4 Address", unit: "BWP / address / month" },
   ];
 

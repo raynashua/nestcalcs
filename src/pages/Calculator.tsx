@@ -85,6 +85,7 @@ const Calculator = () => {
   const [backup, setBackup] = useState(0);
   const [useIndustryDefault, setUseIndustryDefault] = useState(false);
   const [windowsEnabled, setWindowsEnabled] = useState(false);
+  const [sqlServerEnabled, setSqlServerEnabled] = useState(false);
   const [ipv4Count, setIpv4Count] = useState(0);
 
   // 7-day incremental backup: 1 full + 7 daily incrementals at 5% daily change rate
@@ -103,10 +104,11 @@ const Calculator = () => {
     const hddCost = hdd * pricing.hddPerGb;
     const backupCost = effectiveBackup * pricing.backupPerGb;
     const windowsCost = windowsEnabled ? pricing.windowsServer : 0;
+    const sqlServerCost = sqlServerEnabled ? pricing.sqlServerStandard : 0;
     const ipv4Cost = ipv4Count * pricing.ipv4PerAddress;
-    const total = computeCost + ssdCost + hddCost + backupCost + windowsCost + ipv4Cost;
-    return { computeCost, ssdCost, hddCost, backupCost, windowsCost, ipv4Cost, total };
-  }, [cpu, ram, ssd, hdd, effectiveBackup, windowsEnabled, ipv4Count, pricing]);
+    const total = computeCost + ssdCost + hddCost + backupCost + windowsCost + sqlServerCost + ipv4Cost;
+    return { computeCost, ssdCost, hddCost, backupCost, windowsCost, sqlServerCost, ipv4Cost, total };
+  }, [cpu, ram, ssd, hdd, effectiveBackup, windowsEnabled, sqlServerEnabled, ipv4Count, pricing]);
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
@@ -274,6 +276,15 @@ const Calculator = () => {
                   : "Linux (no additional cost)."}
               </p>
               <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-card-foreground">🗄️ SQL Server Standard</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">
+                    {sqlServerEnabled ? "Yes" : "No"}
+                  </span>
+                  <Switch checked={sqlServerEnabled} onCheckedChange={setSqlServerEnabled} />
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-card-foreground">🌐 IPv4 Addresses</span>
                 <Select value={String(ipv4Count)} onValueChange={(v) => setIpv4Count(Number(v))}>
                   <SelectTrigger className="w-20">
@@ -303,6 +314,9 @@ const Calculator = () => {
               )}
               {windowsEnabled && (
                 <PriceLine label="Windows Server 2025 Std" amount={costs.windowsCost} />
+              )}
+              {sqlServerEnabled && (
+                <PriceLine label="SQL Server Standard" amount={costs.sqlServerCost} />
               )}
               {ipv4Count > 0 && (
                 <PriceLine label={`IPv4 Address ×${ipv4Count}`} amount={costs.ipv4Cost} />
