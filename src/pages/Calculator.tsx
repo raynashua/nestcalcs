@@ -207,8 +207,29 @@ const Calculator = () => {
               )}
             </Card>
 
+            {/* Operating System */}
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg text-card-foreground">🖥️ Operating System</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">
+                      {windowsEnabled ? "Windows" : "Linux"}
+                    </span>
+                    <Switch checked={windowsEnabled} onCheckedChange={setWindowsEnabled} />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  {windowsEnabled
+                    ? "Windows Server 2025 Standard license included."
+                    : "Linux (no additional cost)."}
+                </p>
+              </CardContent>
+            </Card>
+
             {/* Future features placeholder */}
-            {/* TODO: OS Selection (Linux free, Windows +cost) */}
             {/* TODO: Additional IP Addresses */}
             {/* TODO: Managed Support Option */}
             {/* TODO: Bandwidth Pricing */}
