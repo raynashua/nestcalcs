@@ -85,6 +85,7 @@ const Calculator = () => {
   const [backup, setBackup] = useState(0);
   const [useIndustryDefault, setUseIndustryDefault] = useState(false);
   const [windowsEnabled, setWindowsEnabled] = useState(false);
+  const [sqlServerEnabled, setSqlServerEnabled] = useState(false);
   const [ipv4Count, setIpv4Count] = useState(0);
 
   // 7-day incremental backup: 1 full + 7 daily incrementals at 5% daily change rate
