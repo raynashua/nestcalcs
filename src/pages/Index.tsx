@@ -70,7 +70,7 @@ const Index = () => {
         </Card>
       </div>
 
-      <p className="mt-12 text-xs text-muted-foreground relative z-10">
+      <p className="mt-12 text-xs text-muted-foreground relative z-10 animate-fade-in" style={{ animationDuration: '0.5s', animationDelay: '0.5s', animationFillMode: 'both' }}>
         🇧🇼 Proudly serving Botswana · Prices in BWP
       </p>
     </div>
