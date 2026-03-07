@@ -82,7 +82,18 @@ const Calculator = () => {
   const [hdd, setHdd] = useState(0);
   const [backupEnabled, setBackupEnabled] = useState(false);
   const [backup, setBackup] = useState(0);
+  const [useIndustryDefault, setUseIndustryDefault] = useState(false);
   const [windowsEnabled, setWindowsEnabled] = useState(false);
+
+  // 7-day incremental backup: 1 full + 7 daily incrementals at 30%/year change rate
+  const totalStorage = ssd + hdd;
+  const dailyChangeRate = 0.30 / 365;
+  const calculatedBackupGb = Math.ceil(totalStorage * (1 + 7 * dailyChangeRate));
+  const effectiveBackup = backupEnabled
+    ? useIndustryDefault
+      ? calculatedBackupGb
+      : backup
+    : 0;
 
   const costs = useMemo(() => {
     const computeCost = cpu * pricing.cpuPerCore + ram * pricing.ramPerGb;
