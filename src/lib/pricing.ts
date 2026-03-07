@@ -21,7 +21,7 @@ const STORAGE_KEY = "vps-pricing-config";
 export function loadPricing(): PricingConfig {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) return JSON.parse(stored);
+    if (stored) return { ...DEFAULT_PRICING, ...JSON.parse(stored) };
   } catch {}
   return { ...DEFAULT_PRICING };
 }
