@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { loadPricing, formatBWP } from "@/lib/pricing";
 import { ArrowLeft, Info } from "lucide-react";
@@ -84,6 +85,7 @@ const Calculator = () => {
   const [backup, setBackup] = useState(0);
   const [useIndustryDefault, setUseIndustryDefault] = useState(false);
   const [windowsEnabled, setWindowsEnabled] = useState(false);
+  const [ipv4Count, setIpv4Count] = useState(0);
 
   // 7-day incremental backup: 1 full + 7 daily incrementals at 5% daily change rate
   const totalStorage = ssd + hdd;
@@ -101,9 +103,10 @@ const Calculator = () => {
     const hddCost = hdd * pricing.hddPerGb;
     const backupCost = effectiveBackup * pricing.backupPerGb;
     const windowsCost = windowsEnabled ? pricing.windowsServer : 0;
-    const total = computeCost + ssdCost + hddCost + backupCost + windowsCost;
-    return { computeCost, ssdCost, hddCost, backupCost, windowsCost, total };
-  }, [cpu, ram, ssd, hdd, effectiveBackup, windowsEnabled, pricing]);
+    const ipv4Cost = ipv4Count * pricing.ipv4PerAddress;
+    const total = computeCost + ssdCost + hddCost + backupCost + windowsCost + ipv4Cost;
+    return { computeCost, ssdCost, hddCost, backupCost, windowsCost, ipv4Cost, total };
+  }, [cpu, ram, ssd, hdd, effectiveBackup, windowsEnabled, ipv4Count, pricing]);
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
@@ -264,12 +267,25 @@ const Calculator = () => {
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground">
                 {windowsEnabled
                   ? "Windows Server 2025 Standard license included."
                   : "Linux (no additional cost)."}
               </p>
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-card-foreground">🌐 IPv4 Addresses</span>
+                <Select value={String(ipv4Count)} onValueChange={(v) => setIpv4Count(Number(v))}>
+                  <SelectTrigger className="w-20">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Array.from({ length: 11 }, (_, i) => (
+                      <SelectItem key={i} value={String(i)}>{i}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </CardContent>
           </Card>
 
@@ -287,6 +303,9 @@ const Calculator = () => {
               )}
               {windowsEnabled && (
                 <PriceLine label="Windows Server 2025 Std" amount={costs.windowsCost} />
+              )}
+              {ipv4Count > 0 && (
+                <PriceLine label={`IPv4 Address ×${ipv4Count}`} amount={costs.ipv4Cost} />
               )}
 
               <div className="border-t border-border pt-4 mt-4">
