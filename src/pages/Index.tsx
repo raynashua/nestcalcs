@@ -42,7 +42,8 @@ const Index = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl relative z-10">
         <Card
-          className="cursor-pointer group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm border-border"
+          className="cursor-pointer group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm border-border animate-fade-in"
+          style={{ animationDuration: '0.5s', animationDelay: '0.2s', animationFillMode: 'both' }}
           onClick={() => navigate("/calculator")}
         >
           <CardContent className="p-8 text-center">
