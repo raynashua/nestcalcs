@@ -207,7 +207,7 @@ const Calculator = () => {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-card-foreground">Use industry default (7-day incremental)</span>
+                    <span className="text-sm text-card-foreground">Use 7 Incremental Values</span>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Info className="h-3.5 w-3.5 text-muted-foreground cursor-help" />
