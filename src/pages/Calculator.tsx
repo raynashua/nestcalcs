@@ -276,6 +276,15 @@ const Calculator = () => {
                   : "Linux (no additional cost)."}
               </p>
               <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-card-foreground">🗄️ SQL Server Standard</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">
+                    {sqlServerEnabled ? "Yes" : "No"}
+                  </span>
+                  <Switch checked={sqlServerEnabled} onCheckedChange={setSqlServerEnabled} />
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-card-foreground">🌐 IPv4 Addresses</span>
                 <Select value={String(ipv4Count)} onValueChange={(v) => setIpv4Count(Number(v))}>
                   <SelectTrigger className="w-20">
