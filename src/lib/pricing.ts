@@ -5,6 +5,7 @@ export interface PricingConfig {
   hddPerGb: number;
   backupPerGb: number;
   windowsServer: number;
+  ipv4PerAddress: number;
 }
 
 export const DEFAULT_PRICING: PricingConfig = {
