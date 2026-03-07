@@ -167,7 +167,7 @@ const Calculator = () => {
                 emoji="📀"
                 tooltip={TOOLTIPS.hdd}
                 value={hdd}
-                min={10}
+                min={0}
                 max={8000}
                 step={10}
                 unit="GB"
