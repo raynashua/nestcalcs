@@ -85,9 +85,9 @@ const Calculator = () => {
   const [useIndustryDefault, setUseIndustryDefault] = useState(false);
   const [windowsEnabled, setWindowsEnabled] = useState(false);
 
-  // 7-day incremental backup: 1 full + 7 daily incrementals at 30%/year change rate
+  // 7-day incremental backup: 1 full + 7 daily incrementals at 5% daily change rate
   const totalStorage = ssd + hdd;
-  const dailyChangeRate = 0.30 / 365;
+  const dailyChangeRate = 0.05;
   const calculatedBackupGb = Math.ceil(totalStorage * (1 + 7 * dailyChangeRate));
   const effectiveBackup = backupEnabled
     ? useIndustryDefault
