@@ -104,9 +104,10 @@ const Calculator = () => {
     const hddCost = hdd * pricing.hddPerGb;
     const backupCost = effectiveBackup * pricing.backupPerGb;
     const windowsCost = windowsEnabled ? pricing.windowsServer : 0;
-    const total = computeCost + ssdCost + hddCost + backupCost + windowsCost;
-    return { computeCost, ssdCost, hddCost, backupCost, windowsCost, total };
-  }, [cpu, ram, ssd, hdd, effectiveBackup, windowsEnabled, pricing]);
+    const ipv4Cost = ipv4Count * pricing.ipv4PerAddress;
+    const total = computeCost + ssdCost + hddCost + backupCost + windowsCost + ipv4Cost;
+    return { computeCost, ssdCost, hddCost, backupCost, windowsCost, ipv4Cost, total };
+  }, [cpu, ram, ssd, hdd, effectiveBackup, windowsEnabled, ipv4Count, pricing]);
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
