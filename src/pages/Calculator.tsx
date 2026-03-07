@@ -89,9 +89,10 @@ const Calculator = () => {
     const ssdCost = ssd * pricing.ssdPerGb;
     const hddCost = hdd * pricing.hddPerGb;
     const backupCost = backupEnabled ? backup * pricing.backupPerGb : 0;
-    const total = computeCost + ssdCost + hddCost + backupCost;
-    return { computeCost, ssdCost, hddCost, backupCost, total };
-  }, [cpu, ram, ssd, hdd, backup, backupEnabled, pricing]);
+    const windowsCost = windowsEnabled ? pricing.windowsServer : 0;
+    const total = computeCost + ssdCost + hddCost + backupCost + windowsCost;
+    return { computeCost, ssdCost, hddCost, backupCost, windowsCost, total };
+  }, [cpu, ram, ssd, hdd, backup, backupEnabled, windowsEnabled, pricing]);
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
