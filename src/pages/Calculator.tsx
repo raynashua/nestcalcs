@@ -76,12 +76,12 @@ const Calculator = () => {
   const navigate = useNavigate();
   const pricing = loadPricing();
 
-  const [cpu, setCpu] = useState(2);
-  const [ram, setRam] = useState(4);
-  const [ssd, setSsd] = useState(50);
-  const [hdd, setHdd] = useState(100);
+  const [cpu, setCpu] = useState(0);
+  const [ram, setRam] = useState(0);
+  const [ssd, setSsd] = useState(0);
+  const [hdd, setHdd] = useState(0);
   const [backupEnabled, setBackupEnabled] = useState(false);
-  const [backup, setBackup] = useState(50);
+  const [backup, setBackup] = useState(0);
   const [windowsEnabled, setWindowsEnabled] = useState(false);
 
   const costs = useMemo(() => {
