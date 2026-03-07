@@ -250,11 +250,12 @@ const Calculator = () => {
             )}
           </Card>
 
-          {/* Operating System */}
+          {/* Extras */}
           <Card className="bg-card border-border">
             <CardHeader className="pb-2">
+              <CardTitle className="text-lg text-card-foreground mb-2">🧩 Extras</CardTitle>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg text-card-foreground">🖥️ OS</CardTitle>
+                <span className="text-sm font-medium text-card-foreground">🖥️ OS</span>
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">
                     {windowsEnabled ? "Windows" : "Linux"}
