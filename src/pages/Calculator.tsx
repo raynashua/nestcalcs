@@ -82,15 +82,17 @@ const Calculator = () => {
   const [hdd, setHdd] = useState(100);
   const [backupEnabled, setBackupEnabled] = useState(false);
   const [backup, setBackup] = useState(50);
+  const [windowsEnabled, setWindowsEnabled] = useState(false);
 
   const costs = useMemo(() => {
     const computeCost = cpu * pricing.cpuPerCore + ram * pricing.ramPerGb;
     const ssdCost = ssd * pricing.ssdPerGb;
     const hddCost = hdd * pricing.hddPerGb;
     const backupCost = backupEnabled ? backup * pricing.backupPerGb : 0;
-    const total = computeCost + ssdCost + hddCost + backupCost;
-    return { computeCost, ssdCost, hddCost, backupCost, total };
-  }, [cpu, ram, ssd, hdd, backup, backupEnabled, pricing]);
+    const windowsCost = windowsEnabled ? pricing.windowsServer : 0;
+    const total = computeCost + ssdCost + hddCost + backupCost + windowsCost;
+    return { computeCost, ssdCost, hddCost, backupCost, windowsCost, total };
+  }, [cpu, ram, ssd, hdd, backup, backupEnabled, windowsEnabled, pricing]);
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
@@ -205,8 +207,29 @@ const Calculator = () => {
               )}
             </Card>
 
+            {/* Operating System */}
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg text-card-foreground">🖥️ Operating System</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">
+                      {windowsEnabled ? "Windows" : "Linux"}
+                    </span>
+                    <Switch checked={windowsEnabled} onCheckedChange={setWindowsEnabled} />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  {windowsEnabled
+                    ? "Windows Server 2025 Standard license included."
+                    : "Linux (no additional cost)."}
+                </p>
+              </CardContent>
+            </Card>
+
             {/* Future features placeholder */}
-            {/* TODO: OS Selection (Linux free, Windows +cost) */}
             {/* TODO: Additional IP Addresses */}
             {/* TODO: Managed Support Option */}
             {/* TODO: Bandwidth Pricing */}
@@ -226,6 +249,9 @@ const Calculator = () => {
                 <PriceLine label="HDD Storage" amount={costs.hddCost} />
                 {backupEnabled && (
                   <PriceLine label="Backup Storage" amount={costs.backupCost} />
+                )}
+                {windowsEnabled && (
+                  <PriceLine label="Windows Server 2025 Std" amount={costs.windowsCost} />
                 )}
 
                 <div className="border-t border-border pt-4 mt-4">
