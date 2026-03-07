@@ -30,7 +30,7 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="text-center mb-12 max-w-2xl relative z-10">
+      <div className="text-center mb-12 max-w-2xl relative z-10 animate-fade-in" style={{ animationDuration: '0.6s', animationFillMode: 'both' }}>
         <div className="text-5xl mb-4">☁️</div>
         <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
           VPS Hosting Calculator
@@ -42,7 +42,8 @@ const Index = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl relative z-10">
         <Card
-          className="cursor-pointer group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm border-border"
+          className="cursor-pointer group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm border-border animate-fade-in"
+          style={{ animationDuration: '0.5s', animationDelay: '0.2s', animationFillMode: 'both' }}
           onClick={() => navigate("/calculator")}
         >
           <CardContent className="p-8 text-center">
@@ -55,7 +56,8 @@ const Index = () => {
         </Card>
 
         <Card
-          className="cursor-pointer group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm border-border"
+          className="cursor-pointer group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm border-border animate-fade-in"
+          style={{ animationDuration: '0.5s', animationDelay: '0.35s', animationFillMode: 'both' }}
           onClick={() => navigate("/admin")}
         >
           <CardContent className="p-8 text-center">
@@ -68,7 +70,7 @@ const Index = () => {
         </Card>
       </div>
 
-      <p className="mt-12 text-xs text-muted-foreground relative z-10">
+      <p className="mt-12 text-xs text-muted-foreground relative z-10 animate-fade-in" style={{ animationDuration: '0.5s', animationDelay: '0.5s', animationFillMode: 'both' }}>
         🇧🇼 Proudly serving Botswana · Prices in BWP
       </p>
     </div>
