@@ -104,9 +104,10 @@ const Calculator = () => {
     const hddCost = hdd * pricing.hddPerGb;
     const backupCost = effectiveBackup * pricing.backupPerGb;
     const windowsCost = windowsEnabled ? pricing.windowsServer : 0;
+    const sqlServerCost = sqlServerEnabled ? pricing.sqlServerStandard : 0;
     const ipv4Cost = ipv4Count * pricing.ipv4PerAddress;
-    const total = computeCost + ssdCost + hddCost + backupCost + windowsCost + ipv4Cost;
-    return { computeCost, ssdCost, hddCost, backupCost, windowsCost, ipv4Cost, total };
+    const total = computeCost + ssdCost + hddCost + backupCost + windowsCost + sqlServerCost + ipv4Cost;
+    return { computeCost, ssdCost, hddCost, backupCost, windowsCost, sqlServerCost, ipv4Cost, total };
   }, [cpu, ram, ssd, hdd, effectiveBackup, windowsEnabled, ipv4Count, pricing]);
 
   return (
