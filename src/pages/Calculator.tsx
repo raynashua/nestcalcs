@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { loadPricing, formatBWP } from "@/lib/pricing";
-import { ArrowLeft, Info } from "lucide-react";
+import { generateQuotePdf } from "@/lib/generate-quote-pdf";
+import { ArrowLeft, Info, Download } from "lucide-react";
 
 const TOOLTIPS = {
   cpu: "Number of virtual CPU cores assigned to your server. More cores = better multitasking.",
