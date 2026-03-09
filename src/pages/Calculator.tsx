@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { loadPricing, formatBWP } from "@/lib/pricing";
-import { ArrowLeft, Info } from "lucide-react";
+import { generateQuotePdf } from "@/lib/generate-quote-pdf";
+import { ArrowLeft, Info, Download } from "lucide-react";
 
 const TOOLTIPS = {
   cpu: "Number of virtual CPU cores assigned to your server. More cores = better multitasking.",
@@ -334,6 +335,27 @@ const Calculator = () => {
               <p className="text-xs text-muted-foreground text-center pt-2">
                 Prices in Botswana Pula (BWP) · Excl. VAT
               </p>
+
+              <Button
+                className="w-full mt-4 gap-2"
+                onClick={() =>
+                  generateQuotePdf({
+                    cpu,
+                    ram,
+                    ssd,
+                    hdd,
+                    backupGb: effectiveBackup,
+                    backupEnabled,
+                    windowsEnabled,
+                    sqlServerEnabled,
+                    ipv4Count,
+                    costs,
+                  })
+                }
+              >
+                <Download className="h-4 w-4" />
+                Download Quote (PDF)
+              </Button>
             </CardContent>
           </Card>
         </div>
