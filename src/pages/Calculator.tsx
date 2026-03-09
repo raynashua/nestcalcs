@@ -446,9 +446,6 @@ const Calculator = () => {
             </form>
           </DialogContent>
         </Dialog>
-            </CardContent>
-          </Card>
-        </div>
       </div>
     </div>
   );
