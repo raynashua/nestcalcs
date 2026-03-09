@@ -108,7 +108,9 @@ const Calculator = () => {
   const ct = pricing.costTypes;
 
   const costs = useMemo(() => {
-    const computeCost = cpu * pricing.cpuPerCore + ram * pricing.ramPerGb;
+    const cpuCost = cpu * pricing.cpuPerCore;
+    const ramCost = ram * pricing.ramPerGb;
+    const computeCost = cpuCost + ramCost;
     const ssdCost = ssd * pricing.ssdPerGb;
     const hddCost = hdd * pricing.hddPerGb;
     const backupCost = effectiveBackup * pricing.backupPerGb;
@@ -118,8 +120,8 @@ const Calculator = () => {
 
     // Categorize costs
     const allItems = [
-      { key: "cpuPerCore", label: "Compute (vCPU)", amount: cpu * pricing.cpuPerCore },
-      { key: "ramPerGb", label: "Compute (RAM)", amount: ram * pricing.ramPerGb },
+      { key: "cpuPerCore", label: "Compute (vCPU)", amount: cpuCost },
+      { key: "ramPerGb", label: "Compute (RAM)", amount: ramCost },
       { key: "ssdPerGb", label: "SSD Storage", amount: ssdCost },
       { key: "hddPerGb", label: "HDD Storage", amount: hddCost },
       { key: "backupPerGb", label: "Backup Storage", amount: backupCost },
