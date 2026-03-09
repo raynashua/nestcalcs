@@ -87,7 +87,7 @@ export function generateQuotePdf(data: QuoteData) {
   doc.setFont("helvetica", "normal");
   doc.text(`${quoteNumber}`, pageWidth - 14, 30, { align: "right" });
 
-  // ── Quote details ──
+  // ── Quote details (left) & Client details (right) ──
   let y = 55;
   doc.setTextColor(...darkGray);
   doc.setFontSize(9);
@@ -105,6 +105,23 @@ export function generateQuotePdf(data: QuoteData) {
     doc.setFont("helvetica", "normal");
     doc.text(value, 55, y);
     y += 6;
+  });
+
+  // Client info on the right side
+  let cy = 55;
+  const clientDetails = [
+    ["Company:", data.client.companyName],
+    ["Contact:", data.client.contactName],
+    ["Email:", data.client.email],
+    ["Phone:", data.client.phone],
+  ];
+
+  clientDetails.forEach(([label, value]) => {
+    doc.setFont("helvetica", "bold");
+    doc.text(label, pageWidth / 2 + 10, cy);
+    doc.setFont("helvetica", "normal");
+    doc.text(value, pageWidth / 2 + 35, cy);
+    cy += 6;
   });
 
   // ── Section: Configuration summary ──
