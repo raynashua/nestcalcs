@@ -1,3 +1,5 @@
+export type CostType = "monthly" | "oneoff";
+
 export interface PricingConfig {
   cpuPerCore: number;
   ramPerGb: number;
@@ -7,7 +9,19 @@ export interface PricingConfig {
   windowsServer: number;
   sqlServerStandard: number;
   ipv4PerAddress: number;
+  costTypes: Record<string, CostType>;
 }
+
+export const DEFAULT_COST_TYPES: Record<string, CostType> = {
+  cpuPerCore: "monthly",
+  ramPerGb: "monthly",
+  ssdPerGb: "monthly",
+  hddPerGb: "monthly",
+  backupPerGb: "monthly",
+  windowsServer: "oneoff",
+  sqlServerStandard: "oneoff",
+  ipv4PerAddress: "monthly",
+};
 
 export const DEFAULT_PRICING: PricingConfig = {
   cpuPerCore: 50,
@@ -18,6 +32,7 @@ export const DEFAULT_PRICING: PricingConfig = {
   windowsServer: 350,
   sqlServerStandard: 500,
   ipv4PerAddress: 25,
+  costTypes: { ...DEFAULT_COST_TYPES },
 };
 
 const STORAGE_KEY = "vps-pricing-config";
@@ -25,9 +40,16 @@ const STORAGE_KEY = "vps-pricing-config";
 export function loadPricing(): PricingConfig {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) return { ...DEFAULT_PRICING, ...JSON.parse(stored) };
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return {
+        ...DEFAULT_PRICING,
+        ...parsed,
+        costTypes: { ...DEFAULT_COST_TYPES, ...(parsed.costTypes || {}) },
+      };
+    }
   } catch {}
-  return { ...DEFAULT_PRICING };
+  return { ...DEFAULT_PRICING, costTypes: { ...DEFAULT_COST_TYPES } };
 }
 
 export function savePricing(config: PricingConfig) {
