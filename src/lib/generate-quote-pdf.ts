@@ -8,6 +8,13 @@ interface QuoteLineItem {
   monthly: number;
 }
 
+export interface ClientInfo {
+  companyName: string;
+  contactName: string;
+  email: string;
+  phone: string;
+}
+
 interface QuoteData {
   cpu: number;
   ram: number;
@@ -18,6 +25,7 @@ interface QuoteData {
   windowsEnabled: boolean;
   sqlServerEnabled: boolean;
   ipv4Count: number;
+  client: ClientInfo;
   costs: {
     computeCost: number;
     ssdCost: number;
