@@ -5,29 +5,56 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-background relative overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden"
+      style={{ background: 'linear-gradient(145deg, hsl(220 45% 8%) 0%, hsl(220 45% 11%) 30%, hsl(220 40% 14%) 60%, hsl(225 40% 10%) 100%)' }}
+    >
       {/* Dynamic background layers */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Radial glow top-right */}
-        <div className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[120px] animate-glow-1" />
-        {/* Radial glow bottom-left */}
-        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-primary/8 blur-[100px] animate-glow-2" />
-        {/* Subtle accent orb center */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-secondary/20 blur-[160px] animate-glow-3" />
-        {/* Grid overlay */}
+        {/* Large primary glow top-right — pronounced */}
+        <div className="absolute -top-20 -right-20 w-[700px] h-[700px] rounded-full blur-[100px] animate-glow-1"
+          style={{ background: 'radial-gradient(circle, hsl(355 80% 45% / 0.25) 0%, hsl(355 80% 45% / 0.08) 50%, transparent 70%)' }}
+        />
+        {/* Primary glow bottom-left */}
+        <div className="absolute -bottom-32 -left-32 w-[600px] h-[600px] rounded-full blur-[90px] animate-glow-2"
+          style={{ background: 'radial-gradient(circle, hsl(355 80% 45% / 0.2) 0%, hsl(355 80% 50% / 0.06) 50%, transparent 70%)' }}
+        />
+        {/* Deep blue orb center */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full blur-[140px] animate-glow-3"
+          style={{ background: 'radial-gradient(circle, hsl(220 40% 22% / 0.6) 0%, hsl(220 45% 14% / 0.3) 40%, transparent 70%)' }}
+        />
+        {/* Secondary warm accent orb */}
+        <div className="absolute top-1/4 left-1/3 w-[400px] h-[400px] rounded-full blur-[120px] animate-glow-2"
+          style={{ background: 'radial-gradient(circle, hsl(355 60% 40% / 0.12) 0%, transparent 60%)' }}
+        />
+        {/* Grid overlay — more visible */}
         <div
-          className="absolute inset-0 opacity-[0.04]"
+          className="absolute inset-0 opacity-[0.07]"
           style={{
             backgroundImage:
               "linear-gradient(hsl(var(--muted-foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--muted-foreground)) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
+            backgroundSize: "50px 50px",
           }}
         />
-        {/* Diagonal accent line */}
+        {/* Diagonal accent lines — wider and more visible */}
         <div className="absolute top-0 right-0 w-full h-full overflow-hidden">
-          <div className="absolute -top-1/2 -right-1/4 w-[1px] h-[200%] bg-gradient-to-b from-transparent via-primary/20 to-transparent rotate-[35deg]" />
-          <div className="absolute -top-1/2 right-1/4 w-[1px] h-[200%] bg-gradient-to-b from-transparent via-primary/10 to-transparent rotate-[35deg]" />
+          <div className="absolute -top-1/2 -right-1/4 w-[2px] h-[200%] rotate-[35deg]"
+            style={{ background: 'linear-gradient(to bottom, transparent 10%, hsl(355 80% 45% / 0.3) 50%, transparent 90%)' }}
+          />
+          <div className="absolute -top-1/2 right-1/4 w-[2px] h-[200%] rotate-[35deg]"
+            style={{ background: 'linear-gradient(to bottom, transparent 15%, hsl(355 80% 45% / 0.15) 50%, transparent 85%)' }}
+          />
+          <div className="absolute -top-1/2 left-1/3 w-[1px] h-[200%] rotate-[35deg]"
+            style={{ background: 'linear-gradient(to bottom, transparent 20%, hsl(220 40% 50% / 0.15) 50%, transparent 80%)' }}
+          />
         </div>
+        {/* Bottom edge gradient fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-40"
+          style={{ background: 'linear-gradient(to top, hsl(220 45% 8% / 0.8), transparent)' }}
+        />
+        {/* Top edge vignette */}
+        <div className="absolute top-0 left-0 right-0 h-32"
+          style={{ background: 'linear-gradient(to bottom, hsl(220 45% 6% / 0.5), transparent)' }}
+        />
       </div>
 
       <div className="text-center mb-12 max-w-2xl relative z-10 animate-fade-in" style={{ animationDuration: '0.6s', animationFillMode: 'both' }}>
