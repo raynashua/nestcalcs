@@ -335,6 +335,27 @@ const Calculator = () => {
               <p className="text-xs text-muted-foreground text-center pt-2">
                 Prices in Botswana Pula (BWP) · Excl. VAT
               </p>
+
+              <Button
+                className="w-full mt-4 gap-2"
+                onClick={() =>
+                  generateQuotePdf({
+                    cpu,
+                    ram,
+                    ssd,
+                    hdd,
+                    backupGb: effectiveBackup,
+                    backupEnabled,
+                    windowsEnabled,
+                    sqlServerEnabled,
+                    ipv4Count,
+                    costs,
+                  })
+                }
+              >
+                <Download className="h-4 w-4" />
+                Download Quote (PDF)
+              </Button>
             </CardContent>
           </Card>
         </div>
