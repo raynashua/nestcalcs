@@ -136,7 +136,7 @@ const Calculator = () => {
     const oneoffTotal = oneoffItems.reduce((s, i) => s + i.amount, 0);
     const total = computeCost + ssdCost + hddCost + backupCost + windowsCost + sqlServerCost + ipv4Cost;
 
-    return { computeCost, ssdCost, hddCost, backupCost, windowsCost, sqlServerCost, ipv4Cost, total, monthlyItems, oneoffItems, monthlyTotal, oneoffTotal };
+    return { cpuCost, ramCost, computeCost, ssdCost, hddCost, backupCost, windowsCost, sqlServerCost, ipv4Cost, total, monthlyItems, oneoffItems, monthlyTotal, oneoffTotal };
   }, [cpu, ram, ssd, hdd, effectiveBackup, windowsEnabled, sqlServerEnabled, ipv4Count, pricing, ct]);
 
   return (
