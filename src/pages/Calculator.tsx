@@ -91,6 +91,9 @@ const Calculator = () => {
   const [windowsEnabled, setWindowsEnabled] = useState(false);
   const [sqlServerEnabled, setSqlServerEnabled] = useState(false);
   const [ipv4Count, setIpv4Count] = useState(0);
+  const [showClientForm, setShowClientForm] = useState(false);
+  const [clientInfo, setClientInfo] = useState<ClientInfo>({ companyName: "", contactName: "", email: "", phone: "" });
+  const [clientErrors, setClientErrors] = useState<Partial<Record<keyof ClientInfo, string>>>({});
 
   // 7-day incremental backup: 1 full + 7 daily incrementals at 5% daily change rate
   const totalStorage = ssd + hdd;
