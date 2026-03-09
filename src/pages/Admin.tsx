@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { loadPricing, savePricing, resetPricing, DEFAULT_PRICING, type PricingConfig } from "@/lib/pricing";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { loadPricing, savePricing, resetPricing, DEFAULT_PRICING, DEFAULT_COST_TYPES, type PricingConfig, type CostType } from "@/lib/pricing";
 import { ArrowLeft, Save, RotateCcw, Lock } from "lucide-react";
 import { toast } from "sonner";
 
@@ -27,10 +28,18 @@ const Admin = () => {
   };
 
   const updateField = (key: keyof PricingConfig, value: string) => {
+    if (key === "costTypes") return;
     const num = parseFloat(value);
     if (!isNaN(num) && num >= 0) {
       setConfig((prev) => ({ ...prev, [key]: num }));
     }
+  };
+
+  const updateCostType = (key: string, type: CostType) => {
+    setConfig((prev) => ({
+      ...prev,
+      costTypes: { ...prev.costTypes, [key]: type },
+    }));
   };
 
   const handleSave = () => {
@@ -40,7 +49,7 @@ const Admin = () => {
 
   const handleReset = () => {
     resetPricing();
-    setConfig({ ...DEFAULT_PRICING });
+    setConfig({ ...DEFAULT_PRICING, costTypes: { ...DEFAULT_COST_TYPES } });
     toast.success("Reset to default pricing");
   };
 
@@ -83,15 +92,15 @@ const Admin = () => {
     );
   }
 
-  const fields: { key: keyof PricingConfig; label: string; unit: string }[] = [
-    { key: "cpuPerCore", label: "Cost per vCPU Core", unit: "BWP / core / month" },
-    { key: "ramPerGb", label: "Cost per GB of RAM", unit: "BWP / GB / month" },
-    { key: "ssdPerGb", label: "Cost per GB of SSD", unit: "BWP / GB / month" },
-    { key: "hddPerGb", label: "Cost per GB of HDD", unit: "BWP / GB / month" },
-    { key: "backupPerGb", label: "Cost per GB of Backup", unit: "BWP / GB / month" },
-    { key: "windowsServer", label: "Windows Server 2025 Standard", unit: "BWP / month" },
-    { key: "sqlServerStandard", label: "SQL Server Standard", unit: "BWP / month" },
-    { key: "ipv4PerAddress", label: "Cost per IPv4 Address", unit: "BWP / address / month" },
+  const fields: { key: keyof Omit<PricingConfig, "costTypes">; label: string; unit: string }[] = [
+    { key: "cpuPerCore", label: "Cost per vCPU Core", unit: "BWP / core" },
+    { key: "ramPerGb", label: "Cost per GB of RAM", unit: "BWP / GB" },
+    { key: "ssdPerGb", label: "Cost per GB of SSD", unit: "BWP / GB" },
+    { key: "hddPerGb", label: "Cost per GB of HDD", unit: "BWP / GB" },
+    { key: "backupPerGb", label: "Cost per GB of Backup", unit: "BWP / GB" },
+    { key: "windowsServer", label: "Windows Server 2025 Standard", unit: "BWP" },
+    { key: "sqlServerStandard", label: "SQL Server Standard", unit: "BWP" },
+    { key: "ipv4PerAddress", label: "Cost per IPv4 Address", unit: "BWP / address" },
   ];
 
   return (
@@ -109,7 +118,7 @@ const Admin = () => {
           <CardHeader>
             <CardTitle className="text-card-foreground">⚙️ Pricing Settings</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Configure the per-unit monthly pricing in Botswana Pula (BWP).
+              Configure the per-unit pricing in Botswana Pula (BWP) and set each item as monthly or one-off.
             </p>
           </CardHeader>
           <CardContent className="space-y-5">
@@ -124,10 +133,23 @@ const Admin = () => {
                     step="0.01"
                     value={config[key]}
                     onChange={(e) => updateField(key, e.target.value)}
+                    className="flex-1"
                   />
-                  <span className="text-xs text-muted-foreground whitespace-nowrap w-36">
+                  <span className="text-xs text-muted-foreground whitespace-nowrap w-24">
                     {unit}
                   </span>
+                  <Select
+                    value={config.costTypes[key] || "monthly"}
+                    onValueChange={(v) => updateCostType(key, v as CostType)}
+                  >
+                    <SelectTrigger className="w-28">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="monthly">Monthly</SelectItem>
+                      <SelectItem value="oneoff">One-off</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             ))}

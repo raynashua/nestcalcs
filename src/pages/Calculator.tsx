@@ -105,17 +105,39 @@ const Calculator = () => {
       : backup
     : 0;
 
+  const ct = pricing.costTypes;
+
   const costs = useMemo(() => {
-    const computeCost = cpu * pricing.cpuPerCore + ram * pricing.ramPerGb;
+    const cpuCost = cpu * pricing.cpuPerCore;
+    const ramCost = ram * pricing.ramPerGb;
+    const computeCost = cpuCost + ramCost;
     const ssdCost = ssd * pricing.ssdPerGb;
     const hddCost = hdd * pricing.hddPerGb;
     const backupCost = effectiveBackup * pricing.backupPerGb;
     const windowsCost = windowsEnabled ? pricing.windowsServer : 0;
     const sqlServerCost = sqlServerEnabled ? pricing.sqlServerStandard : 0;
     const ipv4Cost = ipv4Count * pricing.ipv4PerAddress;
+
+    // Categorize costs
+    const allItems = [
+      { key: "cpuPerCore", label: "Compute (vCPU)", amount: cpuCost },
+      { key: "ramPerGb", label: "Compute (RAM)", amount: ramCost },
+      { key: "ssdPerGb", label: "SSD Storage", amount: ssdCost },
+      { key: "hddPerGb", label: "HDD Storage", amount: hddCost },
+      { key: "backupPerGb", label: "Backup Storage", amount: backupCost },
+      { key: "windowsServer", label: "Windows Server 2025 Std", amount: windowsCost },
+      { key: "sqlServerStandard", label: "SQL Server Standard", amount: sqlServerCost },
+      { key: "ipv4PerAddress", label: `IPv4 Address ×${ipv4Count}`, amount: ipv4Cost },
+    ].filter((item) => item.amount > 0);
+
+    const monthlyItems = allItems.filter((i) => ct[i.key] === "monthly");
+    const oneoffItems = allItems.filter((i) => ct[i.key] === "oneoff");
+    const monthlyTotal = monthlyItems.reduce((s, i) => s + i.amount, 0);
+    const oneoffTotal = oneoffItems.reduce((s, i) => s + i.amount, 0);
     const total = computeCost + ssdCost + hddCost + backupCost + windowsCost + sqlServerCost + ipv4Cost;
-    return { computeCost, ssdCost, hddCost, backupCost, windowsCost, sqlServerCost, ipv4Cost, total };
-  }, [cpu, ram, ssd, hdd, effectiveBackup, windowsEnabled, sqlServerEnabled, ipv4Count, pricing]);
+
+    return { cpuCost, ramCost, computeCost, ssdCost, hddCost, backupCost, windowsCost, sqlServerCost, ipv4Cost, total, monthlyItems, oneoffItems, monthlyTotal, oneoffTotal };
+  }, [cpu, ram, ssd, hdd, effectiveBackup, windowsEnabled, sqlServerEnabled, ipv4Count, pricing, ct]);
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
@@ -313,29 +335,53 @@ const Calculator = () => {
               <CardTitle className="text-lg text-card-foreground">💰 Cost Breakdown</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <PriceLine label="Compute (vCPU + RAM)" amount={costs.computeCost} />
-              <PriceLine label="SSD Storage" amount={costs.ssdCost} />
-              <PriceLine label="HDD Storage" amount={costs.hddCost} />
-              {backupEnabled && (
-                <PriceLine label="Backup Storage" amount={costs.backupCost} />
-              )}
-              {windowsEnabled && (
-                <PriceLine label="Windows Server 2025 Std" amount={costs.windowsCost} />
-              )}
-              {sqlServerEnabled && (
-                <PriceLine label="SQL Server Standard" amount={costs.sqlServerCost} />
-              )}
-              {ipv4Count > 0 && (
-                <PriceLine label={`IPv4 Address ×${ipv4Count}`} amount={costs.ipv4Cost} />
+              {/* Monthly costs */}
+              {costs.monthlyItems.length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Monthly Costs</p>
+                  {costs.monthlyItems.map((item) => (
+                    <PriceLine key={item.key} label={item.label} amount={item.amount} />
+                  ))}
+                  <div className="flex justify-between text-sm border-t border-border pt-2">
+                    <span className="font-medium text-muted-foreground">Monthly Subtotal</span>
+                    <span className="font-semibold text-card-foreground animate-price">{formatBWP(costs.monthlyTotal)}</span>
+                  </div>
+                </div>
               )}
 
-              <div className="border-t border-border pt-4 mt-4">
+              {/* One-off costs */}
+              {costs.oneoffItems.length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">One-off Costs</p>
+                  {costs.oneoffItems.map((item) => (
+                    <PriceLine key={item.key} label={item.label} amount={item.amount} />
+                  ))}
+                  <div className="flex justify-between text-sm border-t border-border pt-2">
+                    <span className="font-medium text-muted-foreground">One-off Subtotal</span>
+                    <span className="font-semibold text-card-foreground animate-price">{formatBWP(costs.oneoffTotal)}</span>
+                  </div>
+                </div>
+              )}
+
+              {costs.monthlyItems.length === 0 && costs.oneoffItems.length === 0 && (
+                <p className="text-sm text-muted-foreground text-center py-2">Configure resources above to see costs</p>
+              )}
+
+              <div className="border-t border-border pt-4 mt-4 space-y-1">
                 <div className="flex justify-between items-center">
-                  <span className="font-semibold text-card-foreground">Total / month</span>
-                  <span className="text-2xl font-bold text-primary animate-price">
-                    {formatBWP(costs.total)}
+                  <span className="font-semibold text-card-foreground">Total Monthly</span>
+                  <span className="text-xl font-bold text-primary animate-price">
+                    {formatBWP(costs.monthlyTotal)}
                   </span>
                 </div>
+                {costs.oneoffTotal > 0 && (
+                  <div className="flex justify-between items-center">
+                    <span className="font-semibold text-card-foreground">Total One-off</span>
+                    <span className="text-xl font-bold text-primary animate-price">
+                      {formatBWP(costs.oneoffTotal)}
+                    </span>
+                  </div>
+                )}
               </div>
 
               <p className="text-xs text-muted-foreground text-center pt-2">
@@ -389,6 +435,7 @@ const Calculator = () => {
                     phone: clientInfo.phone.trim(),
                   },
                   costs,
+                  costTypes: pricing.costTypes,
                 });
                 setShowClientForm(false);
               }}
@@ -461,4 +508,3 @@ function PriceLine({ label, amount }: { label: string; amount: number }) {
 }
 
 export default Calculator;
-
