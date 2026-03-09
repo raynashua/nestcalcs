@@ -344,24 +344,108 @@ const Calculator = () => {
 
               <Button
                 className="w-full mt-4 gap-2"
-                onClick={() =>
-                  generateQuotePdf({
-                    cpu,
-                    ram,
-                    ssd,
-                    hdd,
-                    backupGb: effectiveBackup,
-                    backupEnabled,
-                    windowsEnabled,
-                    sqlServerEnabled,
-                    ipv4Count,
-                    costs,
-                  })
-                }
+                onClick={() => setShowClientForm(true)}
               >
                 <Download className="h-4 w-4" />
                 Download Quote (PDF)
               </Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Client Info Dialog */}
+        <Dialog open={showClientForm} onOpenChange={setShowClientForm}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Client Details</DialogTitle>
+              <DialogDescription>
+                Please provide client information for the quotation.
+              </DialogDescription>
+            </DialogHeader>
+            <form
+              className="space-y-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const errors: Partial<Record<keyof ClientInfo, string>> = {};
+                if (!clientInfo.companyName.trim()) errors.companyName = "Company name is required";
+                if (!clientInfo.contactName.trim()) errors.contactName = "Contact name is required";
+                if (!clientInfo.email.trim()) errors.email = "Email is required";
+                else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientInfo.email.trim())) errors.email = "Invalid email address";
+                if (!clientInfo.phone.trim()) errors.phone = "Phone number is required";
+
+                if (Object.keys(errors).length > 0) {
+                  setClientErrors(errors);
+                  return;
+                }
+                setClientErrors({});
+                generateQuotePdf({
+                  cpu, ram, ssd, hdd,
+                  backupGb: effectiveBackup,
+                  backupEnabled, windowsEnabled, sqlServerEnabled, ipv4Count,
+                  client: {
+                    companyName: clientInfo.companyName.trim(),
+                    contactName: clientInfo.contactName.trim(),
+                    email: clientInfo.email.trim(),
+                    phone: clientInfo.phone.trim(),
+                  },
+                  costs,
+                });
+                setShowClientForm(false);
+              }}
+            >
+              <div className="space-y-2">
+                <Label htmlFor="companyName">Company Name *</Label>
+                <Input
+                  id="companyName"
+                  placeholder="e.g. Acme Holdings (Pty) Ltd"
+                  value={clientInfo.companyName}
+                  onChange={(e) => setClientInfo((c) => ({ ...c, companyName: e.target.value }))}
+                  maxLength={100}
+                />
+                {clientErrors.companyName && <p className="text-xs text-destructive">{clientErrors.companyName}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="contactName">Contact Name *</Label>
+                <Input
+                  id="contactName"
+                  placeholder="e.g. John Mokobi"
+                  value={clientInfo.contactName}
+                  onChange={(e) => setClientInfo((c) => ({ ...c, contactName: e.target.value }))}
+                  maxLength={100}
+                />
+                {clientErrors.contactName && <p className="text-xs text-destructive">{clientErrors.contactName}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email Address *</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="e.g. john@acme.co.bw"
+                  value={clientInfo.email}
+                  onChange={(e) => setClientInfo((c) => ({ ...c, email: e.target.value }))}
+                  maxLength={255}
+                />
+                {clientErrors.email && <p className="text-xs text-destructive">{clientErrors.email}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone Number *</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="e.g. +267 71 234 567"
+                  value={clientInfo.phone}
+                  onChange={(e) => setClientInfo((c) => ({ ...c, phone: e.target.value }))}
+                  maxLength={20}
+                />
+                {clientErrors.phone && <p className="text-xs text-destructive">{clientErrors.phone}</p>}
+              </div>
+              <Button type="submit" className="w-full gap-2">
+                <Download className="h-4 w-4" />
+                Generate & Download PDF
+              </Button>
+            </form>
+          </DialogContent>
+        </Dialog>
             </CardContent>
           </Card>
         </div>
