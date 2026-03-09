@@ -54,23 +54,19 @@ function buildLineItems(data: QuoteData): QuoteLineItem[] {
   const ct = data.costTypes;
   const items: QuoteLineItem[] = [];
 
-  // We need per-unit prices to split CPU and RAM correctly
-  const cpuAmount = data.cpu * (data.costs.computeCost > 0 ? data.costs.computeCost * (data.cpu * 1 / (data.cpu + data.ram || 1)) : 0);
-  // Simpler: just recalculate from the raw data
   if (data.cpu > 0) {
     items.push({
       description: "Compute – vCPU Cores",
       detail: `${data.cpu} vCPU Cores`,
-      amount: data.costs.computeCost * (data.cpu > 0 && data.ram > 0 ? data.cpu / (data.cpu + data.ram) : data.ram > 0 ? 0 : 1) * (data.costs.computeCost > 0 ? 1 : 0),
+      amount: data.costs.cpuCost,
       costType: ct.cpuPerCore || "monthly",
     });
   }
   if (data.ram > 0) {
-    const cpuPortion = data.cpu > 0 ? items[items.length - 1].amount : 0;
     items.push({
       description: "Compute – RAM",
       detail: `${data.ram} GB RAM`,
-      amount: data.costs.computeCost - cpuPortion,
+      amount: data.costs.ramCost,
       costType: ct.ramPerGb || "monthly",
     });
   }
