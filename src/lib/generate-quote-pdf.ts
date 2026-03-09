@@ -29,7 +29,8 @@ interface QuoteData {
   client: ClientInfo;
   costTypes: Record<string, CostType>;
   costs: {
-    computeCost: number;
+    cpuCost: number;
+    ramCost: number;
     ssdCost: number;
     hddCost: number;
     backupCost: number;
