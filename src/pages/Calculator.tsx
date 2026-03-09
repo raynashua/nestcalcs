@@ -4,10 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { loadPricing, formatBWP } from "@/lib/pricing";
-import { generateQuotePdf } from "@/lib/generate-quote-pdf";
+import { generateQuotePdf, type ClientInfo } from "@/lib/generate-quote-pdf";
 import { ArrowLeft, Info, Download } from "lucide-react";
 
 const TOOLTIPS = {
