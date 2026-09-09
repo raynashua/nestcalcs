@@ -6,8 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { loadPricing, savePricing, resetPricing, DEFAULT_PRICING, DEFAULT_COST_TYPES, type PricingConfig, type CostType } from "@/lib/pricing";
-import { ArrowLeft, Save, RotateCcw, Lock } from "lucide-react";
-import { toast } from "sonner";
+import { loadProducts, saveProducts, resetProducts, DEFAULT_PRODUCTS, type ProductItem } from "@/lib/products";
+import { ArrowLeft, Save, RotateCcw, Lock, Plus, Trash2 } from "lucide-react";
 
 // Change this value to update the admin password
 const ADMIN_PASSWORD = "admin123";
