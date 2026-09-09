@@ -67,7 +67,21 @@ const Index = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl relative z-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl relative z-10">
+        <Card
+          className="cursor-pointer group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm border-border animate-fade-in"
+          style={{ animationDuration: '0.5s', animationDelay: '0.28s', animationFillMode: 'both' }}
+          onClick={() => navigate("/quote-builder")}
+        >
+          <CardContent className="p-8 text-center">
+            <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">📄</div>
+            <h2 className="text-xl font-semibold mb-2 text-card-foreground">Quote Builder</h2>
+            <p className="text-sm text-muted-foreground">
+              Create quotations or manage your product items and prices
+            </p>
+          </CardContent>
+        </Card>
+
         <Card
           className="cursor-pointer group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm border-border animate-fade-in"
           style={{ animationDuration: '0.5s', animationDelay: '0.2s', animationFillMode: 'both' }}

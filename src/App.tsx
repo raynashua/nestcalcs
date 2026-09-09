@@ -6,6 +6,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Calculator from "./pages/Calculator";
 import Admin from "./pages/Admin";
+import QuoteBuilder from "./pages/QuoteBuilder";
+import QuoteCreate from "./pages/QuoteCreate";
+import QuoteProducts from "./pages/QuoteProducts";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,6 +23,9 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/calculator" element={<Calculator />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/quote-builder" element={<QuoteBuilder />} />
+          <Route path="/quote-builder/create" element={<QuoteCreate />} />
+          <Route path="/quote-builder/products" element={<QuoteProducts />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
